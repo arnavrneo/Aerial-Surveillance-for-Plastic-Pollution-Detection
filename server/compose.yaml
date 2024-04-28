@@ -1,0 +1,13 @@
+services:
+  fastapi-server:
+    container_name: fastapi-server
+    image: adfa2ea2d040
+    ports:
+      - "8000:8001"
+    volumes:
+      - app_data:/data:ro
+
+
+volumes:
+  app_data:
+    external: true

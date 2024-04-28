@@ -1,0 +1,16 @@
+matplotlib
+Pillow
+PyYAML
+requests
+tqdm
+ultralytics
+opencv-python
+pandas
+numpy
+albumentations
+dill
+fastapi
+uvicorn
+python-multipart
+nest-asyncio
+starlette
