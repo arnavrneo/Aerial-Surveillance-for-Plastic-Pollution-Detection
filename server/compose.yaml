@@ -1,13 +1,11 @@
 services:
   fastapi-server:
     container_name: fastapi-server
-    image: adfa2ea2d040
+    image: 06f9ee171ffc
     ports:
-      - "8000:8001"
+      - "8000:8000"
     volumes:
-      - app_data:/data:ro
-
-
-volumes:
-  app_data:
-    external: true
+      - ../model:/home/model
+    environment:
+      - MODEL_PATH=/home/model/model-ckpt.pt
+    entrypoint: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
