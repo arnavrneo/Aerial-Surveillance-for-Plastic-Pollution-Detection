@@ -1,0 +1,6 @@
+---
+releases:
+
+  - name: helm # already configured in helmchart 
+    chart: ./fastapi-helm-chart
+    installed: true
