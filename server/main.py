@@ -5,23 +5,24 @@ import os
 
 app = FastAPI()
 
-# load model
-# s3 link: https://my-projects-arnavrneo.s3.amazonaws.com/model-ckpt.pt
 # env variable for the location of the
 model = YOLO(os.environ["MODEL_PATH"], task="detect")
+# model = YOLO("../model/model-ckpt.pt", task="detect") # uncomment this for pytest
 
 @app.get("/")
 async def root():
     return {"message": "Server running"}
 
 @app.post("/predict/")
-async def root(
+async def predict(
         image: UploadFile,
         iou: Annotated[float, Form()] = 0.2,
         conf: Annotated[float, Form()] = 0.45,
         imgsz: Annotated[int, Form()] = 1280,
 ):
-    if image.filename.split(".")[-1] not in ['jpeg', 'png', 'jpg']:
+    if image is None:
+        raise HTTPException(status_code=400)
+    elif image.filename.split(".")[-1] not in ['jpeg', 'png', 'jpg']:
         raise HTTPException(status_code=415, detail="File is not an image")
 
     try:
