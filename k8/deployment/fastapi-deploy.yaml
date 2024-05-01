@@ -19,7 +19,7 @@ spec:
         - name: model-setup
           volumeMounts:
             - name: shared-vol
-              mountPath: /home/model
+              mountPath: /home/model/model-ckpt.pt
           image: ubuntu:latest
           #imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]
@@ -41,7 +41,7 @@ spec:
           env:
             - name: MODEL_PATH
               value: /home/model/
-          command: ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
+          command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
       restartPolicy: Always
       volumes:
         - name: shared-vol

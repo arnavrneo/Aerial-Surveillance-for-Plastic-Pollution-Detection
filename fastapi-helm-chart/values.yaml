@@ -9,7 +9,7 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
-  command: ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
+  command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
   env:
     - name: MODEL_PATH
       value: /home/model/model-ckpt.pt
@@ -64,19 +64,24 @@ service:
 
 ingress:
   enabled: true
-  className: ""
-  annotations: {}
+  className: "alb"
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing # internet-facing for internet facing pod
+    alb.ingress.kubernetes.io/target-type: ip # ip for cluster-ip; instance for nodeport
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  path: /
+  pathType: Prefix
   hosts:
-    - host: detect.com
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              port:
-                number: 8000
+#    - host: detect.com
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                port:
+                  number: 8000
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:

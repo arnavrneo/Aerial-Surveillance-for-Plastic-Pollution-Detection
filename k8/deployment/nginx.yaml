@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mynginx
+  labels:
+    app: mynginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mynginx
+  template:
+    metadata:
+      name: mynginx
+      labels:
+        app: mynginx
+    spec:
+      containers:
+        - name: mynginx
+          image: arnavneo/nextjs-frontend:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+      restartPolicy: Always
+      
