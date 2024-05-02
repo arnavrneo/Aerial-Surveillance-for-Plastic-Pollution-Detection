@@ -4,6 +4,7 @@ metadata:
   name: {{ include "fastapi-helm-chart.fullname" . }}
   labels:
     {{- include "fastapi-helm-chart.labels" . | nindent 4 }}
+{{/*  namespace: {{ .Values.namespace }}*/}}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

@@ -4,8 +4,9 @@ metadata:
   name: fastapi-deploy
   labels:
     app: fastapi-deploy
+  namespace: staging
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: fastapi-deploy
@@ -19,7 +20,7 @@ spec:
         - name: model-setup
           volumeMounts:
             - name: shared-vol
-              mountPath: /home/model/model-ckpt.pt
+              mountPath: /home/model/
           image: ubuntu:latest
           #imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c"]
@@ -40,8 +41,13 @@ spec:
               name: shared-vol
           env:
             - name: MODEL_PATH
-              value: /home/model/
+              value: /home/model/model-ckpt.pt
           command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+          resources:
+            requests: # important
+              memory: "4Gi"
+            limits:
+              memory: "6Gi"
       restartPolicy: Always
       volumes:
         - name: shared-vol

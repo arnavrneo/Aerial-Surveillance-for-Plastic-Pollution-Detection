@@ -5,6 +5,7 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing # internet-facing for internet facing pod
     alb.ingress.kubernetes.io/target-type: ip # ip for cluster-ip; instance for nodeport
+  namespace: staging
 spec:
   ingressClassName: alb
   rules:
