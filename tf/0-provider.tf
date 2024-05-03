@@ -22,3 +22,6 @@ variable "cluster_name" {
   default = "tf-cluster"
 }
 
+variable "api_gw_name" {
+  default = "tf-cluster-api"
+}
