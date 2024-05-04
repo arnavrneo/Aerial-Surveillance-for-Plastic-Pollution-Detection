@@ -1,6 +1,6 @@
 # create cognito
-resource "aws_cognito_user_pool" "test2-pool" {
-  name = "test2-pool"
+resource "aws_cognito_user_pool" "cognito-pool" {
+  name = var.cognito_name
 
   auto_verified_attributes = ["email"]
   password_policy {
@@ -27,10 +27,10 @@ resource "aws_cognito_user_pool" "test2-pool" {
   }
 }
 
-resource "aws_cognito_user_pool_client" "test2-client" {
-  name                                 = "test2-client"
+resource "aws_cognito_user_pool_client" "cognito-client" {
+  name                                 = var.cognito_client_name
   allowed_oauth_flows_user_pool_client = true
-  user_pool_id                         = aws_cognito_user_pool.test2-pool.id
+  user_pool_id                         = aws_cognito_user_pool.cognito-pool.id
   generate_secret                      = true
   refresh_token_validity               = 90
   prevent_user_existence_errors        = "ENABLED"
@@ -46,13 +46,13 @@ resource "aws_cognito_user_pool_client" "test2-client" {
   logout_urls   = ["https://examples.com/logout"]
 }
 
-resource "aws_cognito_user_pool_domain" "test2-domain" {
+resource "aws_cognito_user_pool_domain" "cognito-domain" {
   domain       = "arnavraina"
-  user_pool_id = aws_cognito_user_pool.test2-pool.id
+  user_pool_id = aws_cognito_user_pool.cognito-pool.id
 }
 
 resource "aws_cognito_user" "user1" {
-  user_pool_id = aws_cognito_user_pool.test2-pool.id
+  user_pool_id = aws_cognito_user_pool.cognito-pool.id
   username     = "test"
   password     = "12345678"
 

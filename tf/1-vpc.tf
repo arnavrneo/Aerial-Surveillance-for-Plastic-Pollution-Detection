@@ -79,7 +79,7 @@ resource "aws_eip" "tf-server-nat" {
   domain = "vpc"
 
   tags = {
-    Name = "nat"
+    Name = var.natgw_name
   }
 }
 
@@ -89,7 +89,7 @@ resource "aws_nat_gateway" "tf-server-nat" {
   subnet_id     = aws_subnet.public-us-east-1a.id
 
   tags = {
-    Name = "nat"
+    Name = var.natgw_name
   }
 
   depends_on = [aws_internet_gateway.tf-cluster-igw]
@@ -106,7 +106,7 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "private"
+    Name = var.private_rt_name
   }
 }
 
@@ -120,7 +120,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "public"
+    Name = var.public_rt_name
   }
 }
 
@@ -144,3 +144,4 @@ resource "aws_route_table_association" "public-us-east-1b" {
   route_table_id = aws_route_table.public.id
   subnet_id = aws_subnet.public-us-east-1b.id
 }
+
