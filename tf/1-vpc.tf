@@ -8,7 +8,7 @@ resource "aws_vpc" "tf-cluster-vpc" {
 
   tags = {
     Env = "staging"
-    Name = "tf-cluster-vpc"
+    Name = var.vpc_name
   }
 }
 
@@ -17,7 +17,7 @@ resource "aws_internet_gateway" "tf-cluster-igw" {
   vpc_id = aws_vpc.tf-cluster-vpc.id
 
   tags = {
-    Name = "igw"
+    Name = var.igw_name
   }
 }
 
