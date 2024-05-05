@@ -47,7 +47,7 @@ resource "aws_cognito_user_pool_client" "cognito-client" {
 }
 
 resource "aws_cognito_user_pool_domain" "cognito-domain" {
-  domain       = "arnavraina"
+  domain       = "<DOMAIN_NAME_HERE>"
   user_pool_id = aws_cognito_user_pool.cognito-pool.id
 }
 
@@ -57,7 +57,7 @@ resource "aws_cognito_user" "user1" {
   password     = "12345678"
 
   attributes = {
-    email          = "lopezharry096@gmail.com"
+    email          = "<ENTER_MAIL_HERE>"
     email_verified = true
   }
 }

@@ -8,7 +8,7 @@ terraform {
 
 provider "aws" {
   region  = "us-east-1"
-  profile = "arnav-first-1"
+  profile = "arnav-first-1" # set your own profile
 }
 
 # needed for creating lb controller
