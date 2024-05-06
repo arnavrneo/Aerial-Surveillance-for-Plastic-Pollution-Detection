@@ -1,7 +1,7 @@
 services:
   fastapi-server:
     container_name: fastapi-server
-    image: 06f9ee171ffc
+    image: public.ecr.aws/y0g5r5t0/arnavrneo:tfserver-1.0
     ports:
       - "8000:8000"
     volumes:
