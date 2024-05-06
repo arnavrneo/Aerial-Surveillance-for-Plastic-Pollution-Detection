@@ -6,8 +6,8 @@ import os
 app = FastAPI()
 
 # env variable for the location of the
-model = YOLO(os.environ["MODEL_PATH"], task="detect")
-# model = YOLO("../model/model-ckpt.pt", task="detect") # uncomment this for pytest
+# model = YOLO(os.environ["MODEL_PATH"], task="detect")
+model = YOLO("../model/model-ckpt.pt", task="detect") # uncomment this for pytest
 
 @app.get("/")
 async def root():

@@ -16,3 +16,4 @@ nest-asyncio
 starlette
 httpx
 pytest
+python-dotenv

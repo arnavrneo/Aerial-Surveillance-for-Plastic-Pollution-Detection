@@ -1,8 +1,5 @@
 from fastapi.testclient import TestClient
 from .main import app
-import pytest
-from pydantic import ValidationError
-from fastapi import UploadFile
 
 client = TestClient(app)
 
