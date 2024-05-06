@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-deploy
+  labels:
+    app: fastapi-deploy
+  namespace: staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi-deploy
+  template:
+    metadata:
+      name: fastapi-deploy
+      labels:
+        app: fastapi-deploy
+    spec:
+      initContainers:
+        - name: model-setup
+          volumeMounts:
+            - name: shared-vol
+              mountPath: /home/model/
+          image: ubuntu:latest
+          #imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c"]
+          args:
+            - |-
+              apt-get update
+              apt-get install -y wget
+              wget https://my-projects-arnavrneo.s3.amazonaws.com/model-ckpt.pt -P /home/model/
+      containers:
+        - name: fastapi-deploy
+          image: public.ecr.aws/y0g5r5t0/arnavrneo:tfserver-1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /home/model
+              name: shared-vol
+          env:
+            - name: MODEL_PATH
+              value: /home/model/model-ckpt.pt
+          command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+          resources:
+            requests: # important
+              memory: "4Gi"
+            limits:
+              memory: "6Gi"
+      restartPolicy: Always
+      volumes:
+        - name: shared-vol
+          emptyDir: {}
+      

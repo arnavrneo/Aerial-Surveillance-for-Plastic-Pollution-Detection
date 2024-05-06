@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fastapi-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing # internet-facing for internet facing pod
+    alb.ingress.kubernetes.io/target-type: ip # ip for cluster-ip; instance for nodeport
+#  namespace: staging
+spec:
+  ingressClassName: alb
+  rules:
+    #- host: detect.com # custom domain
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: fastapi-service
+              port:
+                number: 8000

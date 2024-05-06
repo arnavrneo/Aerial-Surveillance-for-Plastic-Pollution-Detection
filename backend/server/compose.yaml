@@ -1,0 +1,11 @@
+services:
+  fastapi-server:
+    container_name: fastapi-server
+    image: public.ecr.aws/y0g5r5t0/arnavrneo:tfserver-1.0
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../model:/home/model
+    environment:
+      - MODEL_PATH=/home/model/model-ckpt.pt
+    entrypoint: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
