@@ -3,11 +3,11 @@ resource "aws_vpc" "tf-cluster-vpc" {
   cidr_block = "10.0.0.0/16"
 
 
-  enable_dns_support = true
+  enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
-    Env = "staging"
+    Env  = "staging"
     Name = var.vpc_name
   }
 }
@@ -23,52 +23,52 @@ resource "aws_internet_gateway" "tf-cluster-igw" {
 
 # subnet creation
 resource "aws_subnet" "private-us-east-1a" {
-  vpc_id = aws_vpc.tf-cluster-vpc.id
-  cidr_block = "10.0.0.0/19"
+  vpc_id            = aws_vpc.tf-cluster-vpc.id
+  cidr_block        = "10.0.0.0/19"
   availability_zone = "us-east-1a"
 
   tags = {
-    "Name" = "private-us-east-1a"
-    "kubernetes.io/role/internal-elb" = "1"
+    "Name"                                      = "private-us-east-1a"
+    "kubernetes.io/role/internal-elb"           = "1"
     "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
 }
 
 resource "aws_subnet" "private-us-east-1b" {
-  vpc_id = aws_vpc.tf-cluster-vpc.id
-  cidr_block = "10.0.32.0/19"
+  vpc_id            = aws_vpc.tf-cluster-vpc.id
+  cidr_block        = "10.0.32.0/19"
   availability_zone = "us-east-1b"
 
   tags = {
-    "Name" = "private-us-east-1b"
-    "kubernetes.io/role/internal-elb" = "1"
+    "Name"                                      = "private-us-east-1b"
+    "kubernetes.io/role/internal-elb"           = "1"
     "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
 }
 
 
 resource "aws_subnet" "public-us-east-1a" {
-  vpc_id = aws_vpc.tf-cluster-vpc.id
-  cidr_block = "10.0.64.0/19"
-  availability_zone = "us-east-1a"
+  vpc_id                  = aws_vpc.tf-cluster-vpc.id
+  cidr_block              = "10.0.64.0/19"
+  availability_zone       = "us-east-1a"
   map_public_ip_on_launch = true
 
   tags = {
-    "Name" = "public-us-east-1a"
-    "kubernetes.io/role/elb" = "1"
+    "Name"                                      = "public-us-east-1a"
+    "kubernetes.io/role/elb"                    = "1"
     "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
 }
 
 resource "aws_subnet" "public-us-east-1b" {
-  vpc_id = aws_vpc.tf-cluster-vpc.id
-  cidr_block = "10.0.96.0/19"
-  availability_zone = "us-east-1b"
+  vpc_id                  = aws_vpc.tf-cluster-vpc.id
+  cidr_block              = "10.0.96.0/19"
+  availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
 
   tags = {
-    "Name" = "public-us-east-1b"
-    "kubernetes.io/role/elb" = "1"
+    "Name"                                      = "public-us-east-1b"
+    "kubernetes.io/role/elb"                    = "1"
     "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
 }
@@ -101,7 +101,7 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.tf-cluster-vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.tf-server-nat.id
   }
 
@@ -127,21 +127,21 @@ resource "aws_route_table" "public" {
 ## associate rts above with subnet
 resource "aws_route_table_association" "private-us-east-1a" {
   route_table_id = aws_route_table.private.id
-  subnet_id = aws_subnet.private-us-east-1a.id
+  subnet_id      = aws_subnet.private-us-east-1a.id
 }
 
 resource "aws_route_table_association" "private-us-east-1b" {
   route_table_id = aws_route_table.private.id
-  subnet_id = aws_subnet.private-us-east-1b.id
+  subnet_id      = aws_subnet.private-us-east-1b.id
 }
 
 resource "aws_route_table_association" "public-us-east-1a" {
   route_table_id = aws_route_table.public.id
-  subnet_id = aws_subnet.public-us-east-1a.id
+  subnet_id      = aws_subnet.public-us-east-1a.id
 }
 
 resource "aws_route_table_association" "public-us-east-1b" {
   route_table_id = aws_route_table.public.id
-  subnet_id = aws_subnet.public-us-east-1b.id
+  subnet_id      = aws_subnet.public-us-east-1b.id
 }
 

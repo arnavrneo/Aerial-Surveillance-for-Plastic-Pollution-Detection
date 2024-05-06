@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "assume_role" {
 
 resource "aws_iam_role" "lambda_role" {
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
-  name = "lambda_role"
+  name               = "lambda_role"
 }
 
 # resource "aws_iam_role" "lambda_role" {
@@ -49,14 +49,14 @@ resource "aws_iam_role" "lambda_role" {
 
 data "aws_iam_policy_document" "example" {
   statement {
-    actions = ["apigateway:*"]
+    actions   = ["apigateway:*"]
     resources = ["*"]
-    effect = "Allow"
+    effect    = "Allow"
   }
 }
 
 resource "aws_iam_policy" "lambda_policy" {
-  name = "lambda-policy"
+  name   = "lambda-policy"
   policy = data.aws_iam_policy_document.example.json
 }
 
