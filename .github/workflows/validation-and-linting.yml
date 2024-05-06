@@ -41,7 +41,9 @@ jobs:
 
       - name: Terraform Config Validation
         working-directory: backend/tf
-        run: terraform validate
+        run: |
+          terraform init
+          terraform validate
 
       - name: Terraform Config Linting
         working-directory: backend/tf
