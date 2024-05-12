@@ -1,4 +1,4 @@
-# Aerial Surveillance for Plastic Pollution Detection
+# Aerial View Plastic Pollution Detection with AWS
 
 ## Project Architecture
 
